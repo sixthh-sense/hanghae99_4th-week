@@ -12,12 +12,12 @@ public class ProductController {
 
     // 신규 상품 등록
     @PostMapping("/api/products")
-    public Product createProduct(@RequestBody ProductRequestDto requestDto) throws SQLException {
+    public Long createProduct(@RequestBody ProductRequestDto requestDto) throws SQLException {
         ProductService productService = new ProductService();
         Product product = productService.createProduct(requestDto);
 
 // 응답 보내기
-        return product;
+        return product.getId(); // data type 변경 요청
     }
 
     // 설정 가격 변경
