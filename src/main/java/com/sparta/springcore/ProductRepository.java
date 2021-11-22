@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductRepository {
+
     public void createProduct(Product product) throws SQLException {
+// DB 연결
         Connection connection = DriverManager.getConnection("jdbc:h2:mem:springcoredb", "sa", "");
 
+// DB Query 작성
         PreparedStatement ps = connection.prepareStatement("select max(id) as id from product");
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
@@ -16,7 +19,7 @@ public class ProductRepository {
         } else {
             throw new SQLException("product 테이블의 마지막 id 값을 찾아오지 못했습니다.");
         }
-        ps = connection.prepareStatement("insert into product(id, title, image, link, lowprice, myprice) values(?, ?, ?, ?, ?, ?)");
+        ps = connection.prepareStatement("insert into product(id, title, image, link, lprice, myprice) values(?, ?, ?, ?, ?, ?)");
         ps.setLong(1, product.getId());
         ps.setString(2, product.getTitle());
         ps.setString(3, product.getImage());
@@ -32,8 +35,37 @@ public class ProductRepository {
         connection.close();
     }
 
+    public Product getProduct(Long id) throws SQLException {
+        Product product = new Product();
 
-    public void updateMyprice(Long id, int myprice) throws SQLException{
+// DB 연결
+        Connection connection = DriverManager.getConnection("jdbc:h2:mem:springcoredb", "sa", "");
+
+// DB Query 작성
+        PreparedStatement ps = connection.prepareStatement("select * from product where id = ?");
+        ps.setLong(1, id);
+
+// DB Query 실행
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            product.setId(rs.getLong("id"));
+            product.setImage(rs.getString("image"));
+            product.setLink(rs.getString("link"));
+            product.setLprice(rs.getInt("lprice"));
+            product.setMyprice(rs.getInt("myprice"));
+            product.setTitle(rs.getString("title"));
+        }
+
+// DB 연결 해제
+        rs.close();
+        ps.close();
+        connection.close();
+
+        return product;
+    }
+
+    public void updateMyprice(Long id, int myprice) throws SQLException {
+// DB 연결
         Connection connection = DriverManager.getConnection("jdbc:h2:mem:springcoredb", "sa", "");
 
 // DB Query 작성
@@ -51,6 +83,8 @@ public class ProductRepository {
 
     public List<Product> getProducts() throws SQLException {
         List<Product> products = new ArrayList<>();
+
+// DB 연결
         Connection connection = DriverManager.getConnection("jdbc:h2:mem:springcoredb", "sa", "");
 
 // DB Query 작성 및 실행
@@ -74,32 +108,5 @@ public class ProductRepository {
         connection.close();
 
         return products;
-    }
-
-    public Product getProduct(Long id) throws SQLException{
-        Product product = new Product();
-
-        Connection connection = DriverManager.getConnection("jdbc:h2:mem:springcoredb", "sa", "");
-
-// DB Query 작성
-        PreparedStatement ps = connection.prepareStatement("select * from product where id = ?");
-        ps.setLong(1, id);
-
-// DB Query 실행
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            product.setId(rs.getLong("id"));
-            product.setImage(rs.getString("image"));
-            product.setLink(rs.getString("link"));
-            product.setLprice(rs.getInt("lowprice")); // setLprice는 Product table class
-            product.setMyprice(rs.getInt("myprice"));
-            product.setTitle(rs.getString("title"));
-        }
-// DB 연결 해제
-        rs.close();
-        ps.close();
-        connection.close();
-
-        return product;
     }
 }

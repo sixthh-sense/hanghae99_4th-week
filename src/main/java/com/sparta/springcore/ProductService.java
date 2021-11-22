@@ -4,12 +4,15 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class ProductService {
-    public Product createProduct(ProductRequestDto requestDto) throws SQLException {
-    Product product = new Product(requestDto);
 
-    ProductRepository productRepository = new ProductRepository();
-    productRepository.createProduct(product);
-    return product;
+    public Product createProduct(ProductRequestDto requestDto) throws SQLException {
+// 요청받은 DTO 로 DB에 저장할 객체 만들기
+        Product product = new Product(requestDto);
+
+        ProductRepository productRepository = new ProductRepository();
+        productRepository.createProduct(product);
+
+        return product;
     }
 
     public Product updateProduct(Long id, ProductMypriceRequestDto requestDto) throws SQLException {
@@ -21,6 +24,7 @@ public class ProductService {
 
         int myprice = requestDto.getMyprice();
         productRepository.updateMyprice(id, myprice);
+
         return product;
     }
 
@@ -30,5 +34,4 @@ public class ProductService {
 
         return products;
     }
-
 }
