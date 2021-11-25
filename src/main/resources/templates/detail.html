@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<link th:href="@{/css/deepsea.css}" rel="stylesheet" />
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/8b8c45babd.js" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deepwater</title>
+
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Serif+KR:wght@600&family=Road+Rage&family=Song+Myung&display=swap"
+          rel="stylesheet">
+
+</head>
+<style>
+</style>
+<script>
+
+</script>
+<body th:style="'background:url('+ @{/images/pexels-gilberto-olimpio-7826039.jpg} +'); background-size: contain; background-size: cover; background-repeat: no-repeat;'">
+
+<nav class="navbar navbar-light navbar-deepwater" th:style="'background:url('+ @{/images/calm-waters-in-dark-blue-ocean-background_darkblue.jpg} +'); background-size: contain; background-size: cover; background-repeat: no-repeat;'">
+    <a class="navbar-brand" href="/">
+        <div style="color:#A8BFBB;">
+            <h1><i class="fab fa-digital-ocean fa-1.5x d-inline-block"></i> To shores </h1>
+        </div>
+    </a>
+</nav>
+<h3>
+    <ul class="list-group detailed_list">
+        <span class="badge badge-pill badge-dark d-inline">작성자와 제목</span><li class="list-group-item title_list bg-transparent"><div style="text-align: center"><div class="d-inline" th:text="|${title}|"></div></div></li>
+        <span class="badge badge-pill badge-dark d-inline">내용</span><li class="list-group-item name_list bg-transparent"><div style="text-align: center"><div class="d-inline" th:text="|${thoughts}|"></div></div></li>
+        <span class="badge badge-pill badge-dark d-inline">댓글</span><li class="list-group-item comment_list bg-transparent"><div class="d-inline" th:text="|${comment}|"></div></li>
+    </ul>
+</h3>
+</body>
+</html>

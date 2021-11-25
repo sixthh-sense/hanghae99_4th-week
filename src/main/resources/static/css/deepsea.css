@@ -1,0 +1,97 @@
+.navbar-shallow {
+    font-family: 'Road Rage', cursive;
+    font-size: 2.5em;
+    position: relative;
+    color:#99BFB8
+}
+
+.navbar-deepwater {
+    font-family: 'Road Rage', cursive;
+    font-size: 2.5em;
+    background-color: #99BFB8;
+}
+
+.modal-title {
+    font-family: 'Road Rage', cursive;
+    font-size: 40px;
+    text-align: center;
+}
+
+.modal-body {
+    background-color:#F2B705;
+}
+
+.form-control {
+    font-family: 'Song Myung', serif;
+    font-size: 1.5em;
+    background-color: #0D0D0D;
+}
+
+
+.btn-info {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 25px;
+    height: 50px;
+}
+
+.index-list{
+    font-family: 'Noto Serif KR', serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 25px;
+}
+
+.detailed_list {
+    font-family: 'Noto Serif KR', serif;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: darkgoldenrod;
+}
+
+.title_list{
+    width: 700px;
+    height: 50px;
+}
+
+.name_list{
+    width: 700px;
+    height: 50px;
+}
+
+.comment_list{
+    width: 700px;
+    height: 250px;
+}
+
+.mb-1 {
+
+}
+
+.modifiedAt{
+
+}
+
+.modal-footer{
+    font-family: 'Road Rage', cursive;
+}
+
+.save-button{
+    font-family: 'Road Rage', cursive;
+}
+
+.float-right{
+    margin-right: 25px;
+}
+
+.list-group-horizontal-sm {
+    width:350px;
+    height:50px;
+    margin: auto;
+}
+
+.badge-dark{
+    font-size: 2em;
+}
