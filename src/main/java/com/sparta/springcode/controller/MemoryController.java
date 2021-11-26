@@ -2,14 +2,13 @@ package com.sparta.springcode.controller;
 
 import javax.validation.Valid;
 
+import com.sparta.springcode.security.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import com.sparta.springcode.table.Memory;
 import com.sparta.springcode.repository.MemoryRepository;
@@ -26,13 +25,19 @@ public class MemoryController {
     }
 
     @GetMapping("signup")
-    public String showSignupForm(Memory memory) {
+    public String showSignUpForm(Memory memory) {
         return "add-memory";
     }
 
     @GetMapping("list")
-    public String showUpdateForm(Model model) {
-        model.addAttribute("memory", memoryRepository.findAllByOrderByModifiedAtDesc());
+    public String showUpdateForm(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        model.addAttribute("memories", memoryRepository.findAllByOrderByModifiedAtDesc());
+
+        try {
+            model.addAttribute("memories", memoryRepository.findAllByOrderByModifiedAtDesc());
+            model.addAttribute("username", userDetails.getUsername());
+        } catch(Exception ignored) {
+        }
         return "index";
     }
 
@@ -41,41 +46,47 @@ public class MemoryController {
         if (result.hasErrors()) {
             return "add-memory";
         }
+
         memoryRepository.save(memory);
-        model.addAttribute("memory", memoryRepository.findAllByOrderByModifiedAtDesc());
         return "redirect:list";
     }
 
     @GetMapping("edit/{id}")
-    public String showUpdateForm(@PathVariable Long id, Model model) {
+    public String showUpdateForm(@PathVariable("id") long id, Model model) {
         Memory memory = memoryRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid ID " + id));
+                .orElseThrow(() -> new IllegalArgumentException("Invalid memory Id:" + id));
         model.addAttribute("memory", memory);
         return "update-memory";
     }
 
     @PostMapping("update/{id}")
-    public String updateMemory(@PathVariable Long id, @Valid Memory memory, BindingResult result,
-                                Model model) {
+    public String updateMemory(@PathVariable("id") long id, @Valid Memory memory, BindingResult result,
+                               Model model) {
         if (result.hasErrors()) {
             memory.setId(id);
             return "update-memory";
         }
 
         memoryRepository.save(memory);
-        model.addAttribute("memory", memoryRepository.findAllByOrderByModifiedAtDesc());
+        model.addAttribute("memories", memoryRepository.findAllByOrderByModifiedAtDesc());
         return "index";
     }
 
     @GetMapping("delete/{id}")
-    public String deleteMemory(@PathVariable Long id, Model model) {
+    public String deleteMemory(@PathVariable("id") long id, Model model) {
         Memory memory = memoryRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid memory Id: " + id));
+                .orElseThrow(() -> new IllegalArgumentException("Invalid memory Id:" + id));
         memoryRepository.delete(memory);
-        model.addAttribute("memory", memoryRepository.findAllByOrderByModifiedAtDesc());
+        model.addAttribute("memories", memoryRepository.findAllByOrderByModifiedAtDesc());
         return "index";
     }
 
+    @GetMapping("detail/{id}")
+    public String commentMemory(@PathVariable("id") long id, Model model) {
+
+        return "detail";
+    }
+}
 
 
 
@@ -98,4 +109,3 @@ public class MemoryController {
 //        return memoryRepository.findAllByOrderByModifiedAtDesc();
 //    }
 
-}

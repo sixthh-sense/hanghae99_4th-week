@@ -1,2 +1,4 @@
-package com.sparta.springcode.controller;public class BoardController {
+package com.sparta.springcode.controller;
+
+public class BoardController {
 }

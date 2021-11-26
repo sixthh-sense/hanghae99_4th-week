@@ -2,6 +2,7 @@ package com.sparta.springcode.table;
 
 import com.sparta.springcode.domain.Timestamped;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
@@ -15,6 +16,7 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 @Entity
+@RequiredArgsConstructor
 public class Memory extends Timestamped{
 
     @Id
@@ -29,10 +31,19 @@ public class Memory extends Timestamped{
     @Column(name = "thoughts")
     private String thoughts;
 
-    public Memory() {}
+//    @Column(nullable = false)
+//    private Long userId;
 
     public Memory(String title, String thoughts) {
         this.title = title;
         this.thoughts = thoughts;
-    }
+    } // 백업용
+
+    // 게시글 생성 시 이용
+//    public Memory(MemoryRequestDto requestDto) {
+////        this.userId = userId; , Long userId
+//        this.title = requestDto.getTitle();
+//        this.thoughts = requestDto.getThoughts();
+//    }
+
 }

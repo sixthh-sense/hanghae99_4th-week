@@ -9,5 +9,7 @@ import com.sparta.springcode.table.Memory;
 
 @Repository
 public interface MemoryRepository extends JpaRepository<Memory, Long> {
+//   List<Memory> findAllByUserIdOrderByModifiedAtDesc(Long userId);
+
    List<Memory> findAllByOrderByModifiedAtDesc();
 }
