@@ -1,6 +1,8 @@
 package com.sparta.springcode.table;
 
 import com.sparta.springcode.domain.Timestamped;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,62 +12,27 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 
 
+@Getter
+@Setter
 @Entity
-public class Memory extends Timestamped {
+public class Memory extends Timestamped{
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
-    @NotBlank(message = "Title is mandatory")
+    @NotBlank(message = "제목을 입력해주세요.")
     @Column(name = "title")
     private String title;
 
-    @NotBlank(message = "Thoughts are mandatory")
+    @NotBlank(message = "내용을 입력해주세요.")
     @Column(name = "thoughts")
     private String thoughts;
 
-    @Column
-    private String comment;
-
     public Memory() {}
 
-    public Memory(String title, String thoughts, String comment) {
+    public Memory(String title, String thoughts) {
         this.title = title;
         this.thoughts = thoughts;
-        this.comment = comment;
     }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setThoughts(String thoughts) {
-        this.thoughts = thoughts;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getThoughts() {
-        return thoughts;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
 }
