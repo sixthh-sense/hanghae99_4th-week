@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<link th:href="@{/css/deepsea.css}" rel="stylesheet"/>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/8b8c45babd.js" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deepwater</title>
+
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Serif+KR:wght@600&family=Road+Rage&family=Song+Myung&display=swap"
+          rel="stylesheet">
+
+</head>
+<style>
+</style>
+<script>
+
+</script>
+<body th:style="'background:url('+ @{/images/pexels-gilberto-olimpio-7826039.jpg} +'); background-size: contain; background-size: cover; background-repeat: no-repeat;'">
+
+<nav class="navbar navbar-light navbar-deepwater"
+     th:style="'background:url('+ @{/images/calm-waters-in-dark-blue-ocean-background_darkblue.jpg} +'); background-size: contain; background-size: cover; background-repeat: no-repeat;'">
+    <a class="navbar-brand" href="/memories/list">
+        <div style="color:#A8BFBB;">
+            <h1><i class="fab fa-digital-ocean fa-1.5x d-inline-block"></i> To shores </h1>
+        </div>
+    </a>
+</nav>
+<h3>
+    <ul class="list-group detailed_list">
+        <span class="badge badge-pill badge-dark d-inline">제목</span>
+        <li class="list-group-item title_list bg-transparent">
+            <div style="text-align: center">
+                <div class="d-inline" th:text="${title}"></div>
+            </div>
+        </li>
+        <span class="badge badge-pill badge-dark d-inline">내용</span>
+        <li class="list-group-item name_list bg-transparent">
+            <div style="text-align: center">
+                <div class="d-inline" th:text="${thoughts}"></div>
+            </div>
+        </li>
+<!--        <span class="badge badge-pill badge-dark d-inline">입력시점</span>-->
+<!--        <li class="list-group-item comment_list bg-transparent">-->
+<!--            <div class="d-inline" th:text="${#temporals.format(memory.modifiedAt, 'yyyy-MM-dd HH:mm:ss')}"></div>-->
+<!--        </li>-->
+    </ul>
+</h3>
+
+<form action="/memories/detail/{id}" method="post">
+    <div class="row">
+        <div class="form-group col-md-8">
+            <label for="commentary" class="col-form-label">想</label> <input type="text" class="form-control"
+                                                                            id="commentary" name="commentary"
+                                                                            placeholder="댓글">
+        </div>
+        <div class="col-md-6">
+            <input type="submit" class="btn btn-primary" value="Add Commentary">
+        </div>
+        <div class="form-group col-md-8"></div>
+    </div>
+</form>
+
+<!--<div th:case="*">-->
+<!--    <table class="table table-striped table-responsive-md">-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            <th>Username</th>-->
+<!--            <th>Commentary</th>-->
+<!--            <th>ModifiedAt</th>-->
+<!--            <th>Edit</th>-->
+<!--            <th>Delete</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        <tr th:each="comment : ${comments}">-->
+<!--            <td th:text="${comment.username}"></td>-->
+<!--            <td th:text="${comment.commentary}"></td>-->
+<!--            <td><a th:href="@{/memories/detail/{id}(id=${memory.id})}" class="btn btn-primary"><i class="fas fa-user-edit ml-2"></i></a></td>-->
+<!--            <td><a th:href="@{/memories/edit/{id}(id=${memory.id})}" class="btn btn-primary"><i class="fas fa-user-edit ml-2"></i></a></td>-->
+<!--            <td><a th:href="@{/memories/delete/{id}(id=${memory.id})}" class="btn btn-primary" onclick="if(!confirm('정말로 삭제하시겠습니까?')){return false;}"><i class="fas fa-user-times ml-2"></i></a></td>-->
+<!--            <td th:text="${#temporals.format(memory.modifiedAt, 'yyyy-MM-dd HH:mm:ss')}"></td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
+<!--</div>-->
+
+
+
+<form id="my_form" method="post" action="/user/logout">
+    <a id="logout-text" href="javascript:{}" onclick="document.getElementById('my_form').submit();">로그아웃</a>
+</form>
+</body>
+</html>
