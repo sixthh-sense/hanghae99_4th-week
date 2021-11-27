@@ -35,9 +35,11 @@ public class BoardController {
     }
 
     @PutMapping("detail/{id}/comments/{cId}")
-    public Long editComment(@PathVariable Long cId, @RequestBody CommentDto cDto) {
+    public Long editComment(@PathVariable Long cId, @RequestBody String commentary, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        commentary = commentary.split("=", 2)[1];
         Comment comment = new Comment();
         cId = comment.getId();
+        CommentDto cDto = new CommentDto(userDetails.getUsername(), commentary, cId);
 
         commentService.update(cId, cDto);
         return cId;
