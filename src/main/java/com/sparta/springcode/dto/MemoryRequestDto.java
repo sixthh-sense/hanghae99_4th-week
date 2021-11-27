@@ -8,4 +8,5 @@ import lombok.Setter;
 public class MemoryRequestDto {
     private String title;
     private String thoughts;
+    private Long userId;
 }

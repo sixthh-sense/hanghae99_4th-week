@@ -43,7 +43,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login/**").permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/memories/**").permitAll()
-                .antMatchers("/detail/{id}").permitAll()
+                .antMatchers("/memories/add").permitAll()
+                .antMatchers("/detail/**").permitAll()
                 //.antMatchers("/**").permitAll()
 // 어떤 요청이든 '인증'
                 .anyRequest().authenticated()
@@ -54,7 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/user/login")
                 // 로그인 처리과정
                 .loginProcessingUrl("/user/login")
-                .defaultSuccessUrl("/")
+                .defaultSuccessUrl("/memories/list")
                 .failureUrl("/user/login?error")
                 .permitAll()
                 .and()

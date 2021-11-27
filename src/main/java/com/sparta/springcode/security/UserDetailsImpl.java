@@ -13,7 +13,7 @@ import java.util.Collections;
 public class UserDetailsImpl implements UserDetails {
 
     private final User user;
-    // 회원정보 객체. table쪽의 그. username, password해도 괜찮음음
+    // 회원정보 객체. table쪽의 그. username, password해도 괜찮음
     public UserDetailsImpl(User user) {
         this.user = user;
     }

@@ -1,36 +1,54 @@
 package com.sparta.springcode.controller;
 
 import com.sparta.springcode.dto.CommentDto;
-import com.sparta.springcode.dto.MemoryRequestDto;
 import com.sparta.springcode.repository.CommentRepository;
-import com.sparta.springcode.repository.MemoryRepository;
+import com.sparta.springcode.security.UserDetailsImpl;
+import com.sparta.springcode.service.CommentService;
 import com.sparta.springcode.table.Comment;
-import com.sparta.springcode.table.Memory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
-@Controller
+@RestController
 @RequestMapping("/memories/")
 public class BoardController {
 
-    private final MemoryRepository memoryRepository;
     private final CommentRepository commentRepository;
+    private final CommentService commentService;
 
-    @GetMapping("detail/{id}")
-    public String showCommentForm(@PathVariable Long id, Model model) {
+    @PostMapping("detail/{id}/comments")
+    public Comment writeComment(@PathVariable Long id, @RequestBody String commentary, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        // DTO로 받아오려면 DTO에 입력된 값을 "다" 받아야 한다.
+        commentary = commentary.split("=", 2)[1];
+        CommentDto cDto = new CommentDto(userDetails.getUsername(), commentary, id);
+        Comment comment = new Comment(cDto);
+        return commentRepository.save(comment);
+    }
 
-        Memory memory = memoryRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid memory Id:" + id));
-        model.addAttribute("memory", memory);
-        model.addAttribute("title", memory.getTitle());
-        model.addAttribute("thoughts", memory.getThoughts());
-        model.addAttribute("modifiedAt", memory.getModifiedAt());
-        return "detailed";
+    @GetMapping("detail/{id}/comments")
+    public List<Comment> showWrittenComment(@PathVariable Long id) {
+        Comment comment = new Comment();
+        return commentRepository.findAllByMemoryIdOrderByModifiedAtDesc(id);
+    }
+
+    @PutMapping("detail/{id}/comments/{cId}")
+    public Long editComment(@PathVariable Long cId, @RequestBody CommentDto cDto) {
+        Comment comment = new Comment();
+        cId = comment.getId();
+
+        commentService.update(cId, cDto);
+        return cId;
+    }
+
+    @DeleteMapping("detail/{id}/comments/{cId}")
+    public Long deleteComment(@PathVariable Long cId) {
+        Comment comment = new Comment();
+        cId = comment.getId();
+        commentRepository.deleteById(cId);
+        return cId;
     }
 }
 //}

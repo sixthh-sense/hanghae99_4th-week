@@ -11,6 +11,27 @@
     <meta charset="UTF-8">
     <title>회원가입 페이지</title>
     <script>
+        function onclickCheck() {
+            var reqid = new RegExp("[a-zA-Z0-9]{3,}"); // (?=.*[0-9])(?=.*[a-zA-Z])(?=\S+$)
+            var reqpw = new RegExp(".{4,}");
+
+            var id = document.getElementById("id_check").value;
+            var pw = document.getElementById("pw_check").value;
+            var val = document.getElementById("pw_dbcheck").value;
+
+            if(!(id.match(reqid))) {
+                alert("아이디를 최소 3글자 이상으로, 알파벳 대소문자 혹은 숫자로만 입력해주십시오.");
+            }
+            if(!(pw.match(reqpw))) {
+                alert("비밀번호는 최소 4글자 이상으로 입력해주십시오.")
+            }
+            if(pw!=val){
+                alert("비밀번호와 비밀번호 확인란에 입력된 값이 같지 않습니다.")
+            }
+            window.opener.location.href="/user/login";
+            return false;
+        }
+
         function onclickAdmin() {
 // Get the checkbox
             var checkBox = document.getElementById("admin-check");
@@ -18,7 +39,7 @@
             var box = document.getElementById("admin-token");
 
 // If the checkbox is checked, display the output text
-            if (checkBox.checked == true){
+            if (checkBox.checked == true) {
                 box.style.display = "block";
             } else {
                 box.style.display = "none";
@@ -28,23 +49,27 @@
 </head>
 <body>
 <div id="login-form">
-    <div id="login-title">Sign up Select Shop</div>
+    <div id="login-title">가입하기</div>
 
     <form action="/user/signup" method="post">
-        <div class="login-id-label">Username</div>
-        <input type="text" name="username" placeholder="Username" class="login-input-box">
+        <div class="login-id-label">아이디</div>
+        <input type="text" name="username" placeholder="Username" class="login-input-box" id="id_check">
 
-        <div class="login-id-label">Password</div>
-        <input type="password" name="password" class="login-input-box">
+        <div class="login-id-label">비밀번호</div>
+        <input type="password" name="password" class="login-input-box" id="pw_check">
 
-        <div class="login-id-label">E-mail</div>
+        <div class="login-id-label">비밀번호 확인</div>
+        <input type="text" name="validate" class="login-input-box" id="pw_dbcheck">
+
+        <div class="login-id-label">이메일</div>
         <input type="text" name="email" placeholder="E-mail" class="login-input-box">
 
         <div>
             <input id="admin-check" type="checkbox" name="admin" onclick="onclickAdmin()" style="margin-top: 40px;">관리자
-            <input id="admin-token" type="password" name="adminToken" placeholder="관리자 암호" class="login-input-box" style="display:none">
+            <input id="admin-token" type="password" name="adminToken" placeholder="관리자 암호" class="login-input-box"
+                   style="display:none">
         </div>
-        <button id="login-id-submit">회원 가입</button>
+        <button id="login-id-submit" onclick="onclickCheck()" >회원 가입</button>
     </form>
 </div>
 </body>

@@ -39,16 +39,24 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public void registerUser(SignupRequestDto requestDto) {
+    public void registerUser(SignupRequestDto requestDto) throws IllegalArgumentException{
         String username = requestDto.getUsername();
         String password = passwordEncoder.encode(requestDto.getPassword());
+        String email = requestDto.getEmail();
 // 회원 ID 중복 확인
         Optional<User> found = userRepository.findByUsername(username);
         if (found.isPresent()) {
             throw new IllegalArgumentException("중복된 사용자 ID 가 존재합니다.");
         }
+        if(requestDto.getPassword().indexOf(requestDto.getUsername())!=-1) {
+            throw new IllegalArgumentException("비밀번호에 닉네임과 같은 값을 포함할 수 없습니다.");
+        }
+        if(!(requestDto.getPassword().equals(requestDto.getValidate()))) {
+            throw new IllegalArgumentException("비밀번호가 같지 않습니다.");
+        }
 
-        String email = requestDto.getEmail();
+
+
 // 사용자 ROLE 확인
         UserRoleEnum role = UserRoleEnum.USER;
         if (requestDto.isAdmin()) {
@@ -134,7 +142,7 @@ public class UserService {
 // HTTP Body 생성
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "authorization_code");
-        body.add("client_id", "여기에 REST_API KEY를 넣으십시오.");
+        body.add("client_id", "RESTAPI 입력란");
         body.add("redirect_uri", "http://localhost:8080/user/kakao/callback");
         body.add("code", code);
 

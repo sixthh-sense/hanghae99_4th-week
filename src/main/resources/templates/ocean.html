@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://kit.fontawesome.com/8b8c45babd.js" crossorigin="anonymous"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Along the shore</title>
+
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Serif+KR:wght@600&family=Road+Rage&family=Song+Myung&display=swap"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/basic.js"></script>
+</head>
+
+<style>
+  body{
+    background-color: #E9F2EA;
+  }
+</style>
+
+<script>
+
+</script>
+
+<body>
+
+<!-- Image and text -->
+<nav class="navbar navbar-light" style="background-image: url(images/pexels-asad-photo-maldives-457881_severed.jpg); background-repeat: repeat-x;">
+  <a class="navbar-brand navbar-shallow" href="/">
+    <div style="color: #88A672;">
+      <i class="fas fa-umbrella-beach fa-1.5x d-inline-block"></i>
+      To Deepwater
+    </div>
+  </a>
+  <!-- Button trigger modal -->
+  <div class="float-right">
+    <button type="button" class="btn btn-info w-10 vh-5" style="padding: 10px;" data-toggle="modal" data-target="#exampleModal">
+      기록하기 <i class="far fa-edit"></i>
+    </button>
+  </div>
+</nav>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-image: url(images/26167_edit.jpg); background-size: contain;">
+        <h5 class="modal-title" id="exampleModalLabel">Don't forget</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="input-group mb-3">
+          <input type="text" id="title" class="form-control" aria-label="Sizing example input"
+                 aria-describedby="inputGroup-sizing-default" placeholder="제목">
+        </div>
+        <div class="input-group mb-3">
+          <input type="text" id="name" class="form-control" aria-label="Sizing example input"
+                 aria-describedby="inputGroup-sizing-default" placeholder="이름">
+        </div>
+        <div class="input-group">
+          <textarea class="form-control" id="comment" aria-label="With textarea" placeholder="내용"></textarea>
+        </div>
+
+      </div>
+      <div class="modal-footer" style="background-image: url(images/26167_edit.jpg); background-size: contain;">
+        <button type="button" class="btn btn-danger" style="padding: 14px;" data-dismiss="modal">CLOSE</button>
+        <button type="button" class="btn btn-outline-danger" style="padding: 14px;" onclick="recordMemory()">SAVE</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="list-group w-100 vh-20 index-list rounded-pill" id="setup">
+  <a href="/detail/1" class="list-group-item list-group-item-action">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="title mb-1"></h5>
+      <small class="modifiedAt"><i class="far fa-clock"></i></small>
+    </div>
+    <p></p>
+    <p class="name mb-1"></p>
+  </a>
+</div>
+
+
+
+
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

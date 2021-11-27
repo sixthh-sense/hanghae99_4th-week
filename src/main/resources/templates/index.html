@@ -13,21 +13,32 @@
 
 <body>
 
-<form id="my_form" method="post" action="/user/logout">
-    <a id="logout-text" href="javascript:{}" onclick="document.getElementById('my_form').submit();">로그아웃</a>
+<form id="my_form" method="post" action="/user/login">
+    <a id="login-text" href="javascript:{}" onclick="document.getElementById('my_form').submit();">로그인</a>
 </form>
+<form id="my_form" method="post" action="/user/logout">
+    <a id="loout-text" href="javascript:{}" onclick="document.getElementById('my_form').submit();">로그아웃</a>
+</form>
+
+
 
 
 <div class="container my-2">
     <div class="card">
         <div class="card-body">
-            <div th:switch="${memory}" class="container my-5">
+            <div th:switch="${memories}" class="container my-5">
                 <p class="my-5">
                     <a href="/memories/signup" class="btn btn-primary"><i
-                            class="fas fa-user-plus ml-2"> Add Memory</i></a>
+                            class="fas fa-user-plus ml-2"> 기록하기 </i></a>
+                </p>
+
+                <p class="my-5">
+                    <a th:case="null" href="/memories/list" class="btn btn-primary"><i
+                            class="fas fa-user-plus ml-2"> 댓글창으로 </i></a>
                 </p>
                 <div class="col-md-10">
-                    <h2 th:case="null">Go for it!</h2>
+                    <h2 th:case="null">환영합니다! <p></p> 댓글 쓰려면 로그인하세요! </h2>
+                    <h3>USER ID: <span th:text="${username}"></span></h3>
                     <div th:case="*">
                         <table class="table table-striped table-responsive-md">
                             <thead>
@@ -37,15 +48,17 @@
                                 <th>Comment</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
+                                <th>ModifiedAt</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="memory : ${memory}">
+                            <tr th:each="memory : ${memories}">
                                 <td th:text="${memory.title}"></td>
                                 <td th:text="${memory.thoughts}"></td>
-                                <td th:text="${memory.comment}"></td>
-                                <td><a th:href="@{/memory/edit/{id}(id=${memory.id})}" class="btn btn-primary"><i class="fas fa-user-edit ml-2"></i></a></td>
-                                <td><a th:href="@{/memory/delete/{id}(id=${memory.id})}" class="btn btn-primary"><i class="fas fa-user-times ml-2"></i></a></td>
+                                <td><a th:href="'/memories/detail/' + ${memory.id}" class="btn btn-primary"><i class="fas fa-user-edit ml-2"></i></a></td>
+                                <td><a th:href="@{/memories/edit/{id}(id=${memory.id})}" class="btn btn-primary"><i class="fas fa-user-edit ml-2"></i></a></td>
+                                <td><a th:href="@{/memories/delete/{id}(id=${memory.id})}" class="btn btn-primary" onclick="if(!confirm('정말로 삭제하시겠습니까?')){return false;}"><i class="fas fa-user-times ml-2"></i></a></td>
+                                <td th:text="${#temporals.format(memory.modifiedAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
                             </tr>
                             </tbody>
                         </table>

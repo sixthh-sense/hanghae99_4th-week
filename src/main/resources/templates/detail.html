@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<link th:href="@{/css/deepsea.css}" rel="stylesheet"/>
+      xmlns:th="http://www.thymeleaf.org">
+<link href="/css/deepsea.css" rel="stylesheet"/>
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/8b8c45babd.js" crossorigin="anonymous"></script>
@@ -19,10 +17,11 @@
 
 </head>
 <style>
-    .second{
+    .second {
         flex-grow: 4;
     }
-    .container{
+
+    .container {
         color: white;
     }
 </style>
@@ -36,75 +35,83 @@
         return true;
     }
 
-    function editPost(id) {
-        showEdits(id);
-        let contents = $(`#${id}-contents`).text().trim();
-        $(`#${id}-textarea`).val(contents);
+    function editPost(cId) {
+        showEdits(cId);
+        let contents = $(`#${cId}-contents`).text().trim();
+        $(`#${cId}-textarea`).val(contents);
     }
 
-    function showEdits(id) {
-        $(`#${id}-editarea`).show();
-        $(`#${id}-submit`).show();
-        $(`#${id}-delete`).show();
+    function showEdits(cId) {
+        $(`#${cId}-editarea`).show();
+        $(`#${cId}-submit`).show();
+        $(`#${cId}-delete`).show();
 
-        $(`#${id}-contents`).hide();
-        $(`#${id}-edit`).hide();
+        $(`#${cId}-contents`).hide();
+        $(`#${cId}-edit`).hide();
     }
 
     $(document).ready(function () {
+        let id = [[ ${memory.id} ]]
+        getMessages(id);
         // HTML 문서를 로드할 때마다 실행합니다.
-        getMessages();
+        // let id = /*[[ ${id} ]]*/null;
+        // if (id) {
+        //     getMessages(id);
+        // }
     })
 
     // 메모를 불러와서 보여줍니다.
-    function getMessages() {
+    function getMessages(id) {
+        //getMessages의 id는 memory의 Id여야 하는데
+        // controller쪽과 잘 맞나? 그쪽 pathvariable은 memory쪽 id로 설정하긴 했음
+
         // 1. 기존 메모 내용을 지웁니다.
         $('#cards-box').empty();
         // 2. 메모 목록을 불러와서 HTML로 붙입니다.
         $.ajax({
             type: 'GET',
-            url: `/memories/detail/{id}/comments`,
+            url: `/memories/detail/${id}/comments`,
             success: function (response) {
                 for (let i = 0; i < response.length; i++) {
                     let comment = response[i];
-                    let id = comment['id'];
-                    let username = comment['username'];
+                    let cId = comment['id'];
                     let commentary = comment['commentary'];
+                    let username = comment['username'];
                     let modifiedAt = comment['modifiedAt'];
-                    addHTML(id, username, commentary, modifiedAt);
+                    addHTML(cId, username, commentary, modifiedAt);
                 }
             }
         })
     }
 
-    function addHTML(id, username, commentary, modifiedAt) {
+    function addHTML(cId, username, commentary, modifiedAt) {
         // 1. HTML 태그를 만듭니다.
         let tempHtml = `<div class="card">
                 <!-- date/username 영역 -->
-                <div class="metadata">
-                    <div class="date">
-                        ${modifiedAt}
-                    </div>
-                    <div id="${id}-username" class="username">
-                        ${username}
-                    </div>
-                </div>
-                <!-- contents 조회/수정 영역-->
-                <div class="contents">
-                    <div id="${id}-contents" class="text">
-                        ${commentary}
-                    </div>
-                    <div id="${id}-editarea" class="edit">
-                        <textarea id="${id}-textarea" class="te-edit" name="" id="" cols="30" rows="5"></textarea>
-                    </div>
-                </div>
-                <!-- 버튼 영역-->
-                <div class="footer">
-                    <img id="${id}-edit" class="icon-start-edit" src="images/edit.png" alt="" onclick="editPost('${id}')">
-                    <img id="${id}-delete" class="icon-delete" src="images/delete.png" alt="" onclick="deleteOne('${id}')">
-                    <img id="${id}-submit" class="icon-end-edit" src="images/done.png" alt="" onclick="submitEdit('${id}')">
-                </div>
-            </div>`;
+                            <div class="metadata">
+                                <div class="date">
+                                    ${modifiedAt}
+                                </div>
+                                <div id="${cId}-username" class="username">
+                                    ${username}
+                                </div>
+                            </div>
+                            <!-- contents 조회/수정 영역-->
+                            <div class="contents">
+                                <div id="${cId}-contents" class="text">
+                                    ${commentary}
+                                </div>
+                                <div id="${cId}-editarea" class="edit">
+                                    <textarea id="${cId}-textarea" class="te-edit" name="" id="" cols="30" rows="5"></textarea>
+                                </div>
+                            </div>
+                            <!-- 버튼 영역-->
+                            <div class="footer">
+                                <img id="${cId}-edit" class="icon-start-edit" src="/images/edit.png" alt="" onclick="editPost('${cId}')">
+                                <img id="${cId}-delete" class="icon-delete" src="/images/delete.png" alt="" onclick="deleteOne('${cId}')">
+                                <img id="${cId}-submit" class="icon-end-edit" src="/images/done.png" alt="" onclick="submitEdit('${cId}')">
+                            </div>
+                        </div>`;
         // 2. #cards-box 에 HTML을 붙인다.
         $('#cards-box').append(tempHtml);
     }
@@ -128,15 +135,15 @@
             contentType: "application/json",
             data: JSON.stringify(data),
             success: function (response) {
-                alert('메시지가 성공적으로 작성되었습니다.');
-                window.location.reload();
+                console.log("이야이야호");
+                alert('메시지가 성공적으로 작성되었습니다.'); // 얘는 결국 안 떴네.
             }
         });
     }
 
-    function submitEdit(id) {
+    function submitEdit(cId) {
         // 1. 작성 대상 메모의 username과 contents 를 확인합니다.
-        let contents = $(`#${id}-textarea`).val().trim();
+        let contents = $(`#${cId}-textarea`).val().trim();
 
         // 2. 작성한 메모가 올바른지 isValidContents 함수를 통해 확인합니다.
         if (isValidContents(contents) == false) {
@@ -159,7 +166,7 @@
         });
     }
 
-    function deleteOne(id) {
+    function deleteOne(cId) {
         // 1. DELETE /api/memos/{id} 에 요청해서 메모를 삭제합니다.
         $.ajax({
             type: "DELETE",
@@ -174,7 +181,7 @@
 </script>
 
 
-<body th:style="'background:url('+ @{/images/pexels-gilberto-olimpio-7826039.jpg} +'); background-size: contain; background-size: cover; background-repeat: no-repeat;'">
+<body style="background-size: cover; background: url('/images/pexels-gilberto-olimpio-7826039.jpg') no-repeat;">
 
 <nav class="navbar navbar-light navbar-deepwater" style="background-color: black">
     <a class="navbar-brand" href="/memories/list">
@@ -199,37 +206,29 @@
         </li>
         <span class="badge badge-pill badge-dark d-inline">입력시점</span>
         <li class="list-group-item comment_list bg-transparent">
-            <div class="d-inline" th:text="${#temporals.format(memory.modifiedAt, 'yyyy-MM-dd HH:mm:ss')}"></div>
+                  <div class="d-inline" th:text="${#temporals.format(memory.modifiedAt, 'yyyy-MM-dd HH:mm:ss')}"></div>
         </li>
     </ul>
 </h3>
 
-<div class="card">
-    <!-- date/username 영역 -->
-    <div class="metadata">
-        <div class="date">
-            ${modifiedAt}
-        </div>
-        <div id="${id}-username" class="username">
-            ${username}
-        </div>
-    </div>
-    <!-- contents 조회/수정 영역-->
-    <div class="contents">
-        <div id="${id}-contents" class="text">
-            ${commentary}
-        </div>
-        <div id="${id}-editarea" class="edit">
-            <textarea id="${id}-textarea" class="te-edit" name="" id="" cols="30" rows="5"></textarea>
-        </div>
-    </div>
-    <!-- 버튼 영역-->
-    <div class="footer">
-        <img th:id="${username} + '-edit'" class="icon-start-edit" src="images/edit.png" alt="" th:onclick="'editPost('+${username}+')'">
-        <img id="${id}-delete" class="icon-delete" src="images/delete.png" alt="" onclick="deleteOne('${id}')">
-        <img id="${id}-submit" class="icon-end-edit" src="images/done.png" alt="" onclick="submitEdit('${id}')">
-    </div>
+<div id="cards-box" class="card">
 </div>
+
+<form th:action="'/memories/detail/'+${id}+'/comments'" method="post">
+    <div className="row">
+        <div className="form-group col-md-8">
+            <label htmlFor="commentary" className="col-form-label">댓글</label> <input type="text"
+                                                                                     className="form-control"
+                                                                                     id="contents" name="commentary"
+                                                                                     placeholder="Commentary">
+        </div>
+        <div className="col-md-6">
+            <input type="submit" className="btn btn-primary" value="Add Commentary">
+        </div>
+        <div className="form-group col-md-8"></div>
+    </div>
+</form>
+
 
 <form id="my_form" method="post" action="/user/logout">
     <a id="logout-text" href="javascript:{}" onclick="document.getElementById('my_form').submit();">로그아웃</a>
