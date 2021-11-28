@@ -30,7 +30,6 @@ public class BoardController {
 
     @GetMapping("detail/{id}/comments")
     public List<Comment> showWrittenComment(@PathVariable Long id) {
-        Comment comment = new Comment();
         return commentRepository.findAllByMemoryIdOrderByModifiedAtDesc(id);
     }
 
@@ -62,6 +61,16 @@ public class BoardController {
 //        commentRepository.save(comment);
 //        return "redirect:detail/{id}";
 //    }
+
+
+//    public Comment writeComment(@PathVariable Long id, @RequestBody String commentary, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+//        // DTO로 받아오려면 DTO에 입력된 값을 "다" 받아야 한다.
+//        commentary = commentary.split("=", 2)[1];
+//        CommentDto cDto = new CommentDto(userDetails.getUsername(), commentary, id);
+//        Comment comment = new Comment(cDto);
+//        return commentRepository.save(comment);
+//    }
+
 
 //    model.addAttribute("comments", commentRepository.findAllByOrderByModifiedAtDesc());
 //        try {

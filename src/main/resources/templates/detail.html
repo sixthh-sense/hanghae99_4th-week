@@ -118,7 +118,7 @@
 
     function writePost() {
         // 1. 작성한 메모를 불러옵니다.
-        let contents = $('#contents').val();
+        let commentary = $('#contents').val();
 
         // 2. 작성한 메모가 올바른지 isValidContents 함수를 통해 확인합니다.
         if (isValidContents(contents) == false) {
@@ -131,7 +131,7 @@
         // 5. POST /api/memos 에 data를 전달합니다.
         $.ajax({
             type: "POST",
-            url: `/memories/detail/{id}/comments`,
+            url: `/memories/detail/${id}/comments`,
             contentType: "application/json",
             data: JSON.stringify(data),
             success: function (response) {
@@ -156,7 +156,7 @@
         // 4. PUT /api/memos/{id} 에 data를 전달합니다.
         $.ajax({
             type: "PUT",
-            url: `/memories/detail/{id}/comments/{cId}`,
+            url: `/memories/detail/${id}/comments/${cId}`,
             contentType: "application/json",
             data: JSON.stringify(data),
             success: function (response) {
@@ -170,10 +170,11 @@
         // 1. DELETE /api/memos/{id} 에 요청해서 메모를 삭제합니다.
         $.ajax({
             type: "DELETE",
-            url: `/memories/detail/{id}/comments/{cId}`,
+            url: `/memories/detail/${id}/comments/${cId}`,
             success: function (response) {
                 alert('메시지 삭제에 성공하였습니다.');
                 window.location.reload();
+                // window.location.replace("/memories/detail/${id}");
             }
         })
     }
@@ -206,7 +207,7 @@
         </li>
         <span class="badge badge-pill badge-dark d-inline">입력시점</span>
         <li class="list-group-item comment_list bg-transparent">
-                  <div class="d-inline" th:text="${#temporals.format(memory.modifiedAt, 'yyyy-MM-dd HH:mm:ss')}"></div>
+            <div class="d-inline" th:text="${#temporals.format(memory.modifiedAt, 'yyyy-MM-dd HH:mm:ss')}"></div>
         </li>
     </ul>
 </h3>
